@@ -9,13 +9,23 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return "Hello world !"
+    response = "…"
+
+    if "submit" in request.form :
+            response = request.form['text']
+
+    return """
+    <form method="post">
+        <input type="text" name="text" maxlength=25 \>
+        <input type="submit" name="submit" value="Send" \>
+    </form>
+    Posted data : {}""".format(response)
 
 if __name__ == "__main__":
     app.run()
