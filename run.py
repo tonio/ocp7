@@ -14,4 +14,8 @@ from flask import Flask
 from flasklocal import app
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        debug=app.config['DEBUG'],
+        host=app.config['HOST'],
+        port=app.config['PORT'],
+    )
