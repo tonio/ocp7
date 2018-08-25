@@ -9,10 +9,17 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
+from os import environ
+
 PORT = 1664
 HOST = '192.168.1.70'
 APP = {
     'NAME': 'GrandPy Bot, le papy-robot',
     'SRC': 'http://github.com/freezed/ocp7/',
     'DEBUG': True,
+}
+GOO_API = {
+    'URL_GEO': 'https://maps.googleapis.com/maps/api/geocode/json?',
+    'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap?',
+    'KEY': environ['GOO_API_KEY'],
 }
