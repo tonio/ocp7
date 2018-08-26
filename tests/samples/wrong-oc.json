@@ -1,0 +1,78 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "134",
+               "short_name" : "134",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "D Street East",
+               "short_name" : "D St E",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Greater Avenues",
+               "short_name" : "Greater Avenues",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Salt Lake City",
+               "short_name" : "Salt Lake City",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Salt Lake County",
+               "short_name" : "Salt Lake County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Utah",
+               "short_name" : "UT",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "États-Unis",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "84103",
+               "short_name" : "84103",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "2640",
+               "short_name" : "2640",
+               "types" : [ "postal_code_suffix" ]
+            }
+         ],
+         "formatted_address" : "134 D St E, Salt Lake City, UT 84103, États-Unis",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.7725728,
+               "lng" : -111.8778264
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7739217802915,
+                  "lng" : -111.8764774197085
+               },
+               "southwest" : {
+                  "lat" : 40.7712238197085,
+                  "lng" : -111.8791753802915
+               }
+            }
+         },
+         "place_id" : "ChIJO3lNHnX1UocREIZ65I4T0Kc",
+         "plus_code" : {
+            "compound_code" : "Q4FC+2V Salt Lake City, Utah, États-Unis",
+            "global_code" : "85GCQ4FC+2V"
+         },
+         "types" : [ "establishment", "point_of_interest", "school" ]
+      }
+   ],
+   "status" : "OK"
+}

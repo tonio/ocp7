@@ -1,0 +1,68 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "19",
+               "short_name" : "19",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Rue des Têtes",
+               "short_name" : "Rue des Têtes",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Colmar",
+               "short_name" : "Colmar",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Haut-Rhin",
+               "short_name" : "Haut-Rhin",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Grand Est",
+               "short_name" : "Grand Est",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "France",
+               "short_name" : "FR",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "68000",
+               "short_name" : "68000",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "19 Rue des Têtes, 68000 Colmar, France",
+         "geometry" : {
+            "location" : {
+               "lat" : 48.078477,
+               "lng" : 7.355567999999999
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.0798259802915,
+                  "lng" : 7.356916980291501
+               },
+               "southwest" : {
+                  "lat" : 48.0771280197085,
+                  "lng" : 7.354219019708497
+               }
+            }
+         },
+         "place_id" : "ChIJoUUNTedlkUcRzJH2_40jPNY",
+         "plus_code" : {
+            "compound_code" : "39H4+96 Colmar, France",
+            "global_code" : "8FW939H4+96"
+         },
+         "types" : [ "establishment", "food", "lodging", "point_of_interest", "restaurant" ]
+      }
+   ],
+   "status" : "OK"
+}

@@ -1,0 +1,133 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "1",
+               "short_name" : "1",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Rue du Rempart",
+               "short_name" : "Rue du Rempart",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Colmar",
+               "short_name" : "Colmar",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Haut-Rhin",
+               "short_name" : "Haut-Rhin",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Grand Est",
+               "short_name" : "Grand Est",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "France",
+               "short_name" : "FR",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "68000",
+               "short_name" : "68000",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "1 Rue du Rempart, 68000 Colmar, France",
+         "geometry" : {
+            "location" : {
+               "lat" : 48.0799649,
+               "lng" : 7.356234199999999
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.0813138802915,
+                  "lng" : 7.357583180291502
+               },
+               "southwest" : {
+                  "lat" : 48.0786159197085,
+                  "lng" : 7.354885219708497
+               }
+            }
+         },
+         "partial_match" : true,
+         "place_id" : "ChIJudy6veBlkUcRfQ5nFSZ9N-A",
+         "plus_code" : {
+            "compound_code" : "39H4+XF Colmar, France",
+            "global_code" : "8FW939H4+XF"
+         },
+         "types" : [ "establishment", "food", "point_of_interest", "restaurant" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "36",
+               "short_name" : "36",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Route d'Ingersheim",
+               "short_name" : "Route d'Ingersheim",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Colmar",
+               "short_name" : "Colmar",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Haut-Rhin",
+               "short_name" : "Haut-Rhin",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Grand Est",
+               "short_name" : "Grand Est",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "France",
+               "short_name" : "FR",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "68000",
+               "short_name" : "68000",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "36 Route d'Ingersheim, 68000 Colmar, France",
+         "geometry" : {
+            "location" : {
+               "lat" : 48.083935,
+               "lng" : 7.3469756
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.0852839802915,
+                  "lng" : 7.348324580291503
+               },
+               "southwest" : {
+                  "lat" : 48.0825860197085,
+                  "lng" : 7.345626619708498
+               }
+            }
+         },
+         "partial_match" : true,
+         "place_id" : "ChIJiziwhdhlkUcRjhixrbjgu9E",
+         "plus_code" : {
+            "compound_code" : "38MW+HQ Colmar, France",
+            "global_code" : "8FW938MW+HQ"
+         },
+         "types" : [ "establishment", "point_of_interest", "school" ]
+      }
+   ],
+   "status" : "OK"
+}
