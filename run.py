@@ -13,7 +13,7 @@ from flasklocal import app
 
 if __name__ == '__main__':
     app.run(
-        debug=app.config['DEBUG'],
-        host=app.config['HOST'],
-        port=app.config['PORT'],
+        app.config['HOST'],
+        app.config['PORT'],
+        app.config['APP']['DEBUG'],
     )
