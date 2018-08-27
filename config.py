@@ -22,4 +22,5 @@ GOO_API = {
     'URL_GEO': 'https://maps.googleapis.com/maps/api/geocode/json?',
     'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap?',
     'KEY': environ['GOO_API_KEY'],
+    'MAP_SIZE': (600,300),
 }

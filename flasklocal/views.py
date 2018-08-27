@@ -9,9 +9,8 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
-import pprint
 from flask import Flask, request, render_template
-from apicall import goo_geocode, goo_static, filter_api_response
+from .classes import Place
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -22,27 +21,27 @@ def index():
     """ Index View """
 
     # Default response
-    filtered_data_formated = "… empty response …"
-    map_url = "https://via.placeholder.com/600x300?text=no+map"
+    query = "… no query …"
+    address = "… no address …"
+    map_url = "https://via.placeholder.com/{}x{}?text=no+map".format(*app.config['GOO_API']['MAP_SIZE'])
 
     # Catch posted data from form
     if "submit" in request.form:
-        query_string = str(request.form['query'])
-
         # Request & filter data
-        filtered_data = filter_api_response(goo_geocode(query_string))
+        place = Place(request.form['query'], app.config)
 
         # Get map URL for address
-        map_url = goo_static(filtered_data['formatted_address'])
-
-        filtered_data_formated = pprint.pformat(filtered_data)
+        map_url = place.get_static_map_url()
+        query = place.query
+        address = place.filtered_data['formatted_address']
 
     # Redern view with vars
     return render_template(
         "index.html",
         name=app.config['APP']['NAME'],
         url=app.config['APP']['SRC'],
-        raw_response=filtered_data_formated,
+        query=query,
+        address=address,
         map_url=map_url,
     )
 

@@ -28,18 +28,21 @@
 </head>
 <body>
     <h1>{{ name }}</h1>
-    <p>A basic Flask application</p>
     <form method="post">
+        <label>Ask for a place : </label>
         <select name="query">
             <option value="">… choose _</option>
-            <option value="open classrooms">open classrooms</option>
+            <option value="OpenClassrooms">OpenClassrooms</option>
             <option value="basilique fourvière">basilique fourvière</option>
             <option value="maison des têtes">maison des têtes</option>
         </select>
         <input type="submit" name="submit" value="Send" \>
     </form>
-    <p><pre>{{ raw_response }}</pre></p>
-    <p><img src="{{ map_url }}"</p>
+    <p>
+        <em>The query : </em>[{{ query }}]<br />
+        <em>returns this address : </em>[{{ address }}]
+    </p>
+    <p><img src="{{ map_url }}"></p>
     <p>More info on <a href="{{ url }}">Github</a>.</p>
 </body>
 </html>
