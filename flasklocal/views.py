@@ -10,7 +10,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
 from flask import Flask, request, render_template
-from .classes import Place
+from .classes import Place, Article
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -23,6 +23,7 @@ def index():
     # Default response
     query = "… no query …"
     address = "… no address …"
+    text = "… no text …"
     map_url = "https://via.placeholder.com/{}x{}?text=no+map".format(*app.config['GOO_API']['MAP_SIZE'])
 
     # Catch posted data from form
@@ -35,13 +36,18 @@ def index():
         query = place.query
         address = place.filtered_data['formatted_address']
 
-    # Redern view with vars
+        # Get wikimedia data
+        article = Article(place.query)
+        text = article.get_data()
+
+    # Return view with vars
     return render_template(
         "index.html",
         name=app.config['APP']['NAME'],
         url=app.config['APP']['SRC'],
         query=query,
         address=address,
+        text=text,
         map_url=map_url,
     )
 

@@ -11,7 +11,67 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
  """
 import json
 import requests
-from config import GOO_API
+from config import GOO_API, WIK_API
+
+
+def get_json(url, payload):
+    """
+    Request API
+    """
+    response = requests.get(url, payload)
+    api_json = response.json()
+    api_status = response.status_code
+    return (api_status, api_json)
+
+
+class Article:
+    """ Class doc """
+
+    def __init__(self, query):
+        """
+        Class initialiser
+
+        """
+        self.query = query
+        self.data = {'status': False}
+
+    def get_data(self):
+        """
+        Function documentation
+
+        """
+
+        (search_status, search_json) = get_json(
+            WIK_API['URL_SEARCH'],
+            {'srsearch': self.query}
+        )
+
+        if 'search' not in search_json['query'] or search_status != 200:
+            self.data['context'] = 'search'
+
+        else:
+            self.data['status'] = True
+            self.data['title'] = search_json['query']['search'][0]['title']
+            self.data['pageid'] = search_json['query']['search'][0]['pageid']
+
+            (article_status, article_json) = get_json(
+                WIK_API['URL_ARTICL'],
+                {
+                    'titles': self.data['title'],
+                    'exsentences': 4,
+                    # exintro,
+                }
+            )
+            # import pdb; pdb.set_trace()
+
+            if str(self.data['pageid']) not in article_json['query']['pages'] or article_status != 200:
+                self.data['context'] = 'article'
+
+            else:
+                self.data['status'] = True
+                self.data['extract'] = article_json['query']['pages'][str(self.data['pageid'])]['extract']
+
+        return self.data['extract']
 
 
 class Place:

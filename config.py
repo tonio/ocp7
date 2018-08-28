@@ -24,3 +24,8 @@ GOO_API = {
     'KEY': environ['GOO_API_KEY'],
     'MAP_SIZE': (600,300),
 }
+WIK_API = {
+    'URL_SEARCH': 'https://fr.wikipedia.org/w/api.php?action=query&list=search&utf8=&format=json',
+    'URL_ARTICL': 'https://fr.wikipedia.org/w/api.php?action=query&prop=extracts&exlimit=1&explaintext&utf8=&format=json',
+    'LEN': 3,
+}
