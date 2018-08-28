@@ -11,6 +11,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
  """
 import json
 import requests
+from config import GOO_API
 
 
 class Place:
@@ -19,12 +20,11 @@ class Place:
 
     """
 
-    def __init__(self, query, app_config):
+    def __init__(self, query):
         """
         Constructor
         """
         self.query = str(query)
-        self.app_config = app_config
         self._country = "FR"
 
         self.filtered_data = self.goo_geocode()
@@ -37,14 +37,14 @@ class Place:
         """
         # Build URL request
         payload = {
-            'key': self.app_config['GOO_API']['KEY'],
+            'key': GOO_API['KEY'],
             'address': self.query,
             'region': self._country,
             'country': self._country,
         }
 
         response = requests.get(
-            self.app_config['GOO_API']['URL_GEO'],
+            GOO_API['URL_GEO'],
             payload,
         )
 
@@ -85,14 +85,14 @@ class Place:
         center = self.filtered_data['formatted_address']
 
         payload = {
-            'key': self.app_config['GOO_API']['KEY'],
+            'key': GOO_API['KEY'],
             'center': center,
             'markers': center,
-            'size': "{}x{}".format(*self.app_config['GOO_API']['MAP_SIZE']),
+            'size': "{}x{}".format(*GOO_API['MAP_SIZE']),
         }
 
         response = requests.get(
-            self.app_config['GOO_API']['URL_MAP'],
+            GOO_API['URL_MAP'],
             payload,
         )
 

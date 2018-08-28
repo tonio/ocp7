@@ -28,7 +28,7 @@ def index():
     # Catch posted data from form
     if "submit" in request.form:
         # Request & filter data
-        place = Place(request.form['query'], app.config)
+        place = Place(request.form['query'])
 
         # Get map URL for address
         map_url = place.get_static_map_url()
