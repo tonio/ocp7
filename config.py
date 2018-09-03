@@ -23,6 +23,7 @@ GOO_API = {
     'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap?',
     'KEY': environ['GOO_API_KEY'],
     'MAP_SIZE': (600,300),
+    'COUNTRY': 'FR'
 }
 WIK_API = {
     'URL_SEARCH': 'https://fr.wikipedia.org/w/api.php?action=query&list=search&utf8=&format=json',

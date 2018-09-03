@@ -10,7 +10,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
 from flask import Flask, request, render_template
-from .classes import Place, Article
+from .classes import Place
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -34,11 +34,10 @@ def index():
         # Get map URL for address
         map_url = place.get_static_map_url()
         query = place.query
-        address = place.filtered_data['formatted_address']
+        address = place.geo_data['formatted_address']
 
         # Get wikimedia data
-        article = Article(place.query)
-        text = article.get_data()
+        text = place.article_data['extract']
 
     # Return view with vars
     return render_template(
