@@ -53,8 +53,10 @@ class Place:
 
         """
         payload = {'srsearch': self.query}
+        # Adds basic API call parameters
+        payload.update(**WIK_API['PARAM_SEARCH'])
 
-        search_json = self.get_json(WIK_API['URL_SEARCH'], payload)
+        search_json = self.get_json(WIK_API['ROOT_URL'], payload)
 
         try:
             self.article_data['title'] = search_json['query']['search'][0]['title']
@@ -65,9 +67,11 @@ class Place:
 
         else:
             self.article_data['status'] = True
-            payload = {'titles': self.article_data['title'], 'exsentences': 4}
+            payload = {'titles': self.article_data['title']}
+            # Adds basic API call parameters
+            payload.update(**WIK_API['PARAM_EXTRAC'])
 
-            article_json = self.get_json(WIK_API['URL_ARTICL'], payload)
+            article_json = self.get_json(WIK_API['ROOT_URL'], payload)
 
             try:
                 self.article_data['extract'] = article_json['query']['pages'][str(self.article_data['pageid'])]['extract']

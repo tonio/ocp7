@@ -19,14 +19,29 @@ APP = {
     'DEBUG': True,
 }
 GOO_API = {
-    'URL_GEO': 'https://maps.googleapis.com/maps/api/geocode/json?',
-    'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap?',
+    'URL_GEO': 'https://maps.googleapis.com/maps/api/geocode/json',
+    'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap',
     'KEY': environ['GOO_API_KEY'],
     'MAP_SIZE': (600,300),
     'COUNTRY': 'FR'
 }
 WIK_API = {
-    'URL_SEARCH': 'https://fr.wikipedia.org/w/api.php?action=query&list=search&utf8=&format=json',
-    'URL_ARTICL': 'https://fr.wikipedia.org/w/api.php?action=query&prop=extracts&exlimit=1&explaintext&utf8=&format=json',
-    'LEN': 3,
+    'ROOT_URL': 'https://fr.wikipedia.org/w/api.php',
+    'PARAM_SEARCH': {
+        'action':'query',
+        'utf8':True,
+        'format':'json',
+        'list':'search',
+    },
+    'PARAM_EXTRAC': {
+        'action':'query',
+        'utf8':True,
+        'format':'json',
+        'prop':'extracts',
+        'exlimit':1,
+        'explaintext':True,
+        'exsentences':3,
+        'exsectionformat':'plain',
+        # 'exintro':True,
+    }
 }
