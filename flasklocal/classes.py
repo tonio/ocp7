@@ -13,6 +13,7 @@ import json
 import requests
 from config import GOO_API, WIK_API
 
+
 class Place:
     """
     Defines a place with the user query
@@ -63,7 +64,10 @@ class Place:
             self.article_data['pageid'] = search_json['query']['search'][0]['pageid']
 
         except TypeError:
-            self.article_data['context'] = 'search'
+            self.article_data['context'] = 'search TypeError'
+
+        except IndexError:
+            self.article_data['context'] = 'search IndexError'
 
         else:
             self.article_data['status'] = True
@@ -80,9 +84,6 @@ class Place:
                 self.article_data['context'] = 'article'
                 self.article_data['status'] = False
 
-        # dev
-        import pprint; pprint.pprint(self.article_data)
-
     def set_geo_data(self):
         """
         Calls Google geocode API with a string query & retrieve a Place
@@ -97,7 +98,14 @@ class Place:
             'country': GOO_API['COUNTRY'],
         }
 
-        geo_json = self.get_json(GOO_API['URL_GEO'],payload)
+        geo_json = self.get_json(GOO_API['URL_GEO'], payload)
+
+        self.geo_data = {'truncated_address': {}}
+
+        for component in geo_json['results'][0]['address_components']:
+            self.geo_data['truncated_address'].update(
+                {component['types'][0]: component['long_name']}
+            )
 
         try:
             # Dict aliases for smaller lines
@@ -105,19 +113,24 @@ class Place:
             alias_go = geo_json['results'][0]
             alias_vp = geo_json['results'][0]['geometry']['viewport']
 
-            self.geo_data = {'truncated_address':
-                {
-                    alias_ac[1]['types'][0]: alias_ac[1]['long_name'],
-                    alias_ac[2]['types'][0]: alias_ac[2]['long_name'],
-                    alias_ac[3]['types'][0]: alias_ac[3]['long_name'],
-                    alias_ac[4]['types'][0]: alias_ac[4]['long_name'],
+            for component in alias_ac:
+                self.geo_data = {
+                    'truncated_address': {
+                        component['types'][0]:component['long_name']
+                    }
                 }
-            }
+
+            # self.geo_data = {'truncated_address':
+                # {
+                    # alias_ac[1]['types'][0]: alias_ac[1]['long_name'],
+                    # alias_ac[2]['types'][0]: alias_ac[2]['long_name'],
+                    # alias_ac[3]['types'][0]: alias_ac[3]['long_name'],
+                    # alias_ac[4]['types'][0]: alias_ac[4]['long_name'],
+                # }
+            # }
 
             self.geo_data['formatted_address'] = alias_go['formatted_address']
             self.geo_data['location'] = alias_go['geometry']['location']
-            self.geo_data['viewport_ne'] = alias_vp['northeast']
-            self.geo_data['viewport_sw'] = alias_vp['southwest']
 
         except TypeError:
             self.geo_data = {'error': 'no_data'}
@@ -126,9 +139,6 @@ class Place:
             # No data if request ĥas less or more 1 result
             if len(geo_json['results']) != 1:
                 self.geo_data = {'warning': 'not_single'}
-
-        # dev
-        import pprint; pprint.pprint(self.geo_data)
 
     def get_static_map_url(self):
         """
