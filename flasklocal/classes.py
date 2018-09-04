@@ -128,8 +128,11 @@ class Place:
 
         else:
             # No data if request ĥas less or more 1 result
-            if len(geo_json['results']) != 1:
-                self.geo_data = {'warning': 'not_single'}
+            if len(geo_json['results']) > 1:
+                self.geo_data['warning'] = 'no_single_geocode_result'
+
+            elif len(geo_json['results']) == 0:
+                self.geo_data = {'error': 'no_geocode_result'}
 
             # Adds locality in orginal query if missing for more appropriateness
             try:
