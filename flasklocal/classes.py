@@ -120,15 +120,6 @@ class Place:
                     }
                 }
 
-            # self.geo_data = {'truncated_address':
-                # {
-                    # alias_ac[1]['types'][0]: alias_ac[1]['long_name'],
-                    # alias_ac[2]['types'][0]: alias_ac[2]['long_name'],
-                    # alias_ac[3]['types'][0]: alias_ac[3]['long_name'],
-                    # alias_ac[4]['types'][0]: alias_ac[4]['long_name'],
-                # }
-            # }
-
             self.geo_data['formatted_address'] = alias_go['formatted_address']
             self.geo_data['location'] = alias_go['geometry']['location']
 
@@ -144,10 +135,15 @@ class Place:
         """
         Return url of a static maps using Google Static Maps API
         """
+        coord = "{},{}".format(
+            self.geo_data['location']['lat'],
+            self.geo_data['location']['lng'],
+        )
+
         payload = {
             'key': GOO_API['KEY'],
-            'center': self.geo_data['formatted_address'],
-            'markers': self.geo_data['formatted_address'],
+            'center': coord,
+            'markers': coord,
             'size': "{}x{}".format(*GOO_API['MAP_SIZE']),
         }
 
