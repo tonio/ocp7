@@ -108,20 +108,8 @@ class Place:
             )
 
         try:
-            # Dict aliases for smaller lines
-            alias_ac = geo_json['results'][0]['address_components']
-            alias_go = geo_json['results'][0]
-            alias_vp = geo_json['results'][0]['geometry']['viewport']
-
-            for component in alias_ac:
-                self.geo_data = {
-                    'truncated_address': {
-                        component['types'][0]:component['long_name']
-                    }
-                }
-
-            self.geo_data['formatted_address'] = alias_go['formatted_address']
-            self.geo_data['location'] = alias_go['geometry']['location']
+            self.geo_data['formatted_address'] = geo_json['results'][0]['formatted_address']
+            self.geo_data['location'] = geo_json['results'][0]['geometry']['location']
 
         except TypeError:
             self.geo_data = {'error': 'no_data'}
