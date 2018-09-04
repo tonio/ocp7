@@ -131,6 +131,23 @@ class Place:
             if len(geo_json['results']) != 1:
                 self.geo_data = {'warning': 'not_single'}
 
+            # Adds locality in orginal query if missing for more appropriateness
+            try:
+                loc = self.geo_data['truncated_address']['locality'].replace(
+                    "-", " "
+                ).replace(
+                    "'", " "
+                ).lower()
+
+                if loc not in self.query.lower():
+                    self.query = "{} {}".format(
+                        self.query,
+                        self.geo_data['truncated_address']['locality']
+                    )
+
+            except KeyError:
+                self.geo_data['query_update_exception'] = 'locality'
+
     def get_static_map_url(self):
         """
         Return url of a static maps using Google Static Maps API
