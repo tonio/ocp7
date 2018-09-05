@@ -15,16 +15,12 @@ from .classes import Place
 app = Flask(__name__)
 app.config.from_object('config')
 
-
 @app.route('/', methods=['POST', 'GET'])
 def index():
     """ Index View """
 
-    # Default response
-    query = "… no query …"
-    address = "… no address …"
-    text = "… no text …"
-    map_url = "https://via.placeholder.com/{}x{}?text=no+map".format(*app.config['GOO_API']['MAP_SIZE'])
+    # Default variables
+    view_vars = app.config['VIEW_DEFAULT_VARS']
 
     # Catch posted data from form
     if "submit" in request.form:
@@ -32,23 +28,15 @@ def index():
         place = Place(request.form['query'])
 
         # Get map URL for address
-        map_url = place.get_static_map_url()
-        query = place.query
-        address = place.geo_data['formatted_address']
+        view_vars['map_url'] = place.get_static_map_url()
+        view_vars['query'] = place.query
+        view_vars['address'] = place.geo_data['formatted_address']
 
         # Get wikimedia data
-        text = place.article_data['extract']
+        view_vars['text'] = place.article_data['extract']
 
     # Return view with vars
-    return render_template(
-        "index.html",
-        name=app.config['APP']['NAME'],
-        url=app.config['APP']['SRC'],
-        query=query,
-        address=address,
-        text=text,
-        map_url=map_url,
-    )
+    return render_template("index.html", **view_vars)
 
 
 if __name__ == "__main__":

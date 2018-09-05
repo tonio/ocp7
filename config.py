@@ -45,3 +45,13 @@ WIK_API = {
         # 'exintro':True,
     }
 }
+VIEW_DEFAULT_VARS = {
+    'query': '… no query …',
+    'address': '… no address …',
+    'text': '… no text …',
+    'map_url': 'https://via.placeholder.com/{}x{}?text=no+map'.format(
+        *GOO_API['MAP_SIZE']
+    ),
+    'name': APP['NAME'],
+    'url': APP['SRC'],
+}
