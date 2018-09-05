@@ -17,6 +17,7 @@ APP = {
     'NAME': 'GrandPy Bot, le papy-robot',
     'SRC': 'http://github.com/freezed/ocp7/',
     'DEBUG': True,
+    'MAP_LINK': 'https://opentopomap.org/#map=17/{lat}/{lng}',
 }
 GOO_API = {
     'URL_GEO': 'https://maps.googleapis.com/maps/api/geocode/json',
@@ -47,11 +48,13 @@ WIK_API = {
 }
 VIEW_DEFAULT_VARS = {
     'query': '… no query …',
+    'dev_log': '… no dev_log …',
     'address': '… no address …',
     'text': '… no text …',
-    'map_url': 'https://via.placeholder.com/{}x{}?text=no+map'.format(
+    'map_img_src': 'https://via.placeholder.com/{}x{}?text=no+map'.format(
         *GOO_API['MAP_SIZE']
     ),
     'name': APP['NAME'],
     'url': APP['SRC'],
+    'map_link': '',
 }

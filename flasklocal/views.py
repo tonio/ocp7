@@ -10,7 +10,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
 from flask import Flask, request, render_template
-from .classes import Place
+from .classes import Place, Query
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -24,16 +24,29 @@ def index():
 
     # Catch posted data from form
     if "submit" in request.form:
+        # Parse text input
+        query = Query(request.form['textinput'])
+        view_vars['dev_log'] = query.parse()
+
         # Request & filter data
-        place = Place(request.form['query'])
+        place = Place(query.in_string)
 
         # Get map URL for address
-        view_vars['map_url'] = place.get_static_map_url()
-        view_vars['query'] = place.query
-        view_vars['address'] = place.geo_data['formatted_address']
+        view_vars['map_img_src'] = place.get_map_src()
+        view_vars['map_link'] = app.config['APP']['MAP_LINK'].format(**place.geo_data['location'])
+
+        # Dev logging
+        view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
+        view_vars['dev_log'] += "\naddress : «{}»".format(place.geo_data['formatted_address'])
+        view_vars['dev_log'] += "\ncoord : «{}»".format(place.geo_data['location'])
 
         # Get wikimedia data
-        view_vars['text'] = place.article_data['extract']
+        if place.article_data['status']:
+            view_vars['text'] = place.article_data['extract']
+
+        else:
+            # No extract : feeds with place.article_data for loggin
+            view_vars['text'] = place.article_data
 
     # Return view with vars
     return render_template("index.html", **view_vars)

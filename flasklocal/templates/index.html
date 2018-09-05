@@ -29,16 +29,13 @@
 <body>
     <h1>{{ name }}</h1>
     <form method="post">
-        <label>Ask for a place : </label>
-        <input type=text name="query" \>
+        <label>Ask something to GrandPy about a place : </label>
+        <input type=text name="textinput" \>
         <input type="submit" name="submit" value="Send" \>
     </form>
-    <p>
-        <em>The query : </em>[{{ query }}]<br />
-        <em>returns this address : </em>[{{ address }}]
-    </p>
-    <p>{{ text }}</p>
-    <p><img src="{{ map_url }}"></p>
+    <p><pre>{{ dev_log }}</pre></p>
+    <p><pre>{{ text }}</pre></p>
+    <p><a href="{{ map_link }}"><img src="{{ map_img_src }}"></a></p>
     <p>More info on <a href="{{ url }}">Github</a>.</p>
 </body>
 </html>
