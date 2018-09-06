@@ -65,11 +65,17 @@ class Place:
             self.article_data['title'] = search_json['query']['search'][0]['title']
             self.article_data['pageid'] = search_json['query']['search'][0]['pageid']
 
+        except KeyError:
+            self.article_data['context'] = 'search KeyError'
+            self.article_data['status'] = False
+
         except TypeError:
             self.article_data['context'] = 'search TypeError'
+            self.article_data['status'] = False
 
         except IndexError:
             self.article_data['context'] = 'search IndexError'
+            self.article_data['status'] = False
 
         else:
             self.article_data['status'] = True
@@ -100,8 +106,8 @@ class Place:
         }
 
         geo_json = self.get_json(GOO_API['URL_GEO'], payload)
-
-        self.geo_data = {'truncated_address': {}}
+        self.geo_data['status'] = True
+        self.geo_data['truncated_address'] = {}
 
         for component in geo_json['results'][0]['address_components']:
             self.geo_data['truncated_address'].update(
