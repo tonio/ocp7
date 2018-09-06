@@ -12,8 +12,9 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 from os import environ
 
 PORT = 1664
-# HOST = '192.168.1.70'
-HOST = '192.168.46.64'
+# HOST = 'localhost'
+HOST = '192.168.1.70'
+# HOST = '192.168.46.64'
 APP = {
     'NAME': 'GrandPy Bot, le papy-robot',
     'SRC': 'http://github.com/freezed/ocp7/',
