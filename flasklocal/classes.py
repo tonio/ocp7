@@ -28,11 +28,13 @@ class Place:
         Sets arguments
         """
         self.query = str(query)
+        self.geo_data = {'status': False}
         self.article_data = {'status': False}
 
         # Get geodata
-        self.set_geo_data()
-        self.set_article_data()
+        if len(self.query) > GOO_API['MIN_QUERY_LEN']:
+            self.set_geo_data()
+            self.set_article_data()
 
     def get_json(self, url, payload):
         """

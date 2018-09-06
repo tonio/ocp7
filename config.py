@@ -12,7 +12,8 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 from os import environ
 
 PORT = 1664
-HOST = '192.168.1.70'
+# HOST = '192.168.1.70'
+HOST = '192.168.46.64'
 APP = {
     'NAME': 'GrandPy Bot, le papy-robot',
     'SRC': 'http://github.com/freezed/ocp7/',
@@ -24,7 +25,8 @@ GOO_API = {
     'URL_MAP': 'https://maps.googleapis.com/maps/api/staticmap',
     'KEY': environ['GOO_API_KEY'],
     'MAP_SIZE': (600,300),
-    'COUNTRY': 'FR'
+    'COUNTRY': 'FR',
+    'MIN_QUERY_LEN': 5,
 }
 WIK_API = {
     'ROOT_URL': 'https://fr.wikipedia.org/w/api.php',

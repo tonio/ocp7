@@ -32,13 +32,18 @@ def index():
         place = Place(query.in_string)
 
         # Get map URL for address
-        view_vars['map_img_src'] = place.get_map_src()
-        view_vars['map_link'] = app.config['APP']['MAP_LINK'].format(**place.geo_data['location'])
+        if place.geo_data['status']:
+            view_vars['map_img_src'] = place.get_map_src()
+            view_vars['map_link'] = app.config['APP']['MAP_LINK'].format(**place.geo_data['location'])
 
-        # Dev logging
-        view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
-        view_vars['dev_log'] += "\naddress : «{}»".format(place.geo_data['formatted_address'])
-        view_vars['dev_log'] += "\ncoord : «{}»".format(place.geo_data['location'])
+            # Dev logging
+            view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
+            view_vars['dev_log'] += "\naddress : «{}»".format(place.geo_data['formatted_address'])
+            view_vars['dev_log'] += "\ncoord : «{}»".format(place.geo_data['location'])
+        else:
+            # No geo_data : feeds with place.geo_data for loggin
+            view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
+            view_vars['dev_log'] += "\ngeo_data : «{}»".format(place.geo_data)
 
         # Get wikimedia data
         if place.article_data['status']:
@@ -46,7 +51,7 @@ def index():
 
         else:
             # No extract : feeds with place.article_data for loggin
-            view_vars['text'] = place.article_data
+            view_vars['dev_log'] += "\narticle_data : «{}»".format(place.article_data)
 
     # Return view with vars
     return render_template("index.html", **view_vars)
