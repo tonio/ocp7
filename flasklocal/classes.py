@@ -100,6 +100,7 @@ class Place:
         """
         # Build URL request
         payload = {
+            'key': GOO_API['KEY'],
             'address': self.query,
             'region': GOO_API['COUNTRY'],
             'country': GOO_API['COUNTRY'],
@@ -156,7 +157,6 @@ class Place:
         )
 
         payload = {
-            'key': GOO_API['KEY'],
             'center': coord,
             'markers': coord,
             'size': "{}x{}".format(*GOO_API['MAP_SIZE']),
