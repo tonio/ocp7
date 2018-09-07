@@ -36,6 +36,11 @@ class Place:
             self.set_geo_data()
             self.set_article_data()
 
+    @staticmethod
+    def compare(string):
+        """ Returns a comparable version of string """
+        return str(string).replace("-", " ").replace("'", " ").casefold()
+
     def get_json(self, url, payload):
         """
         Request API
@@ -132,13 +137,8 @@ class Place:
 
             # Adds locality in orginal query if missing for more appropriateness
             try:
-                loc = self.geo_data['truncated_address']['locality'].replace(
-                    "-", " "
-                ).replace(
-                    "'", " "
-                ).lower()
-
-                if loc not in self.query.lower():
+                if self.compare(self.geo_data['truncated_address']['locality'])\
+                not in self.compare(self.query):
                     self.query = "{} {}".format(
                         self.query,
                         self.geo_data['truncated_address']['locality']
@@ -195,29 +195,37 @@ class Query():
         result = []
         notresult = []
 
+        # DEVLOG login found stop words
         for word in self.text.split():
+
             if word in self.stop:
                 result.append(word)
 
         for word in self.text.split():
 
+            # word is not in stopword list
             if word not in self.stop:
+
+                # search for single quote or hyphen in word
                 squote_idx = word.find("'")
 
+                # word contain single quote : split it after
                 if squote_idx != -1:
                     squote_idx += 1
 
                     if word[squote_idx:] not in self.stop:
                         notresult.append(word[squote_idx:])
 
+                # word contains alnum
                 elif word.isalnum():
                     notresult.append(word)
 
+                # cleanning word of other non-alnum character
                 else:
                     cleaned_word = str()
 
                     for char in word:
-                        if char.isalnum():
+                        if char.isalnum() or char == "-":
                             cleaned_word += char
 
                     if cleaned_word not in self.stop:
