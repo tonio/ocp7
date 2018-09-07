@@ -183,7 +183,7 @@ class Query():
         self.stop.extend(ask)
         self.stop.extend(hello)
         self.stop.extend(key)
-        self.text = str(textinput).casefold()
+        self._textinput_cf = str(textinput).casefold()
 
         self.in_string = str()
 
@@ -195,12 +195,12 @@ class Query():
         notresult = []
 
         # DEVLOG login found stop words
-        for word in self.text.split():
+        for word in self._textinput_cf.split():
 
             if word in self.stop:
                 result.append(word)
 
-        for word in self.text.split():
+        for word in self._textinput_cf.split():
 
             # word is not in stopword list
             if word not in self.stop:
@@ -232,4 +232,4 @@ class Query():
 
         self.in_string = " ".join(notresult)
 
-        return "text : «{}»\nresult : «{}»\nnotresult : «{}»".format(self.text, result, notresult)
+        return "text : «{}»\nresult : «{}»\nnotresult : «{}»".format(self._textinput_cf, result, notresult)
