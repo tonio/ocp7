@@ -44,9 +44,9 @@ WIK_API = {
         'prop':'extracts',
         'exlimit':1,
         'explaintext':True,
-        'exsentences':3,
+        # 'exsentences':3,
         'exsectionformat':'plain',
-        # 'exintro':True,
+        'exintro':True,
     }
 }
 VIEW_DEFAULT_VARS = {
