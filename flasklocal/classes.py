@@ -230,6 +230,6 @@ class Query():
                     if cleaned_word not in self.stop:
                         notresult.append(cleaned_word)
 
-        self.in_string = " ".join(notresult)
+        self.in_string = " ".join(notresult).strip()
 
         return "text : «{}»\nresult : «{}»\nnotresult : «{}»".format(self._textinput_cf, result, notresult)

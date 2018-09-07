@@ -23,3 +23,7 @@ class TestQuery:
 
     def test_stop_type(self):
         assert isinstance(self.QUERY.stop, list)
+
+    def test_parser(self):
+        self.QUERY.parse()
+        assert self.QUERY.in_string == "openclassrooms"
