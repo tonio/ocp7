@@ -9,7 +9,6 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
  """
-import json
 import requests
 from config import GOO_API, WIK_API
 
@@ -41,13 +40,13 @@ class Place:
         """ Returns a comparable version of string """
         return str(string).replace("-", " ").replace("'", " ").casefold()
 
-    def get_json(self, url, payload):
+    @staticmethod
+    def get_json(url, payload):
         """
         Request API
         """
         response = requests.get(url, payload)
         api_json = response.json()
-        api_status = response.status_code
 
         if response.status_code == 200:
             return api_json
@@ -132,7 +131,7 @@ class Place:
             if len(geo_json['results']) > 1:
                 self.geo_data['warning'] = 'no_single_geocode_result'
 
-            elif len(geo_json['results']) == 0:
+            elif not geo_json['results']:
                 self.geo_data = {'error': 'no_geocode_result'}
 
             # Adds locality in orginal query if missing for more appropriateness
