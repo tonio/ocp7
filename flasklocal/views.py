@@ -26,7 +26,7 @@ def index():
     if "submit" in request.form:
         # Parse text input
         query = Query(request.form['textinput'])
-        view_vars['dev_log'] = query.parse()
+        view_vars['dev_log'] = [query.parse()]
 
         # Request & filter data
         place = Place(query.in_string)
@@ -35,23 +35,30 @@ def index():
         if place.geo_data['status']:
             view_vars['map_img_src'] = place.get_map_src()
             view_vars['map_link'] = app.config['APP']['MAP_LINK'].format(**place.geo_data['location'])
+            view_vars['text'] = [place.geo_data['formatted_address']]
 
             # Dev logging
-            view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
-            view_vars['dev_log'] += "\naddress : «{}»".format(place.geo_data['formatted_address'])
-            view_vars['dev_log'] += "\ncoord : «{}»".format(place.geo_data['location'])
+            view_vars['dev_log'] = ["query : «{}»".format(place.query)]
+            view_vars['dev_log'].append("coord : «{}»".format(place.geo_data['location']))
         else:
             # No geo_data : feeds with place.geo_data for loggin
-            view_vars['dev_log'] += "\nquery : «{}»".format(place.query)
-            view_vars['dev_log'] += "\ngeo_data : «{}»".format(place.geo_data)
+            view_vars['text'].append("Ça me dit rien gamin  …")
+            view_vars['map_img_src'] = app.config['VIEW_DEFAULT_VARS']['map_img_src']
+            view_vars['map_link'] = app.config['VIEW_DEFAULT_VARS']['map_link']
+
+            # Dev logging
+            view_vars['dev_log'].append("query : «{}»".format(place.query))
+            view_vars['dev_log'].append("geo_data : «{}»".format(place.geo_data))
 
         # Get wikimedia data
         if place.article_data['status']:
-            view_vars['text'] = place.article_data['extract']
+            view_vars['text'].append(place.article_data['extract'])
 
         else:
             # No extract : feeds with place.article_data for loggin
-            view_vars['dev_log'] += "\narticle_data : «{}»".format(place.article_data)
+            view_vars['text'].append("J'ai la mémoire qui flanche de temps en temps…")
+
+            view_vars['dev_log'].append("article_data : «{}»".format(place.article_data))
 
     # Return view with vars
     return render_template("index.html", **view_vars)

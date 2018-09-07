@@ -30,11 +30,18 @@
     <h1>{{ name }}</h1>
     <form method="post">
         <label>Ask something to GrandPy about a place : </label>
-        <input type=text name="textinput" \>
-        <input type="submit" name="submit" value="Send" \>
+        <input type=text name="textinput" />
+        <input type="submit" name="submit" value="Send" />
     </form>
-    <p><pre>{{ dev_log }}</pre></p>
-    <p>{{ text }}</p>
+    <ul>
+    {% for trace in dev_log %}
+        <li><pre>{{ trace }}</pre></li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% for item in text %}
+    <p>{{ item }}</p>
+    {% endfor %}
     <p><a href="{{ map_link }}"><img src="{{ map_img_src }}"></a></p>
     <p>More info on <a href="{{ url }}">Github</a>.</p>
 </body>
