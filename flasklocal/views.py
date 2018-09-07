@@ -30,6 +30,7 @@ def index():
 
         # Request & filter data
         place = Place(query.in_string)
+        place.trigger_api()
 
         # Get map URL for address
         if place.geo_data['status']:
@@ -38,7 +39,7 @@ def index():
             view_vars['text'] = [place.geo_data['formatted_address']]
 
             # Dev logging
-            view_vars['dev_log'] = ["query : «{}»".format(place.query)]
+            view_vars['dev_log'].append("query : «{}»".format(place.query))
             view_vars['dev_log'].append("coord : «{}»".format(place.geo_data['location']))
         else:
             # No geo_data : feeds with place.geo_data for loggin
@@ -58,6 +59,7 @@ def index():
             # No extract : feeds with place.article_data for loggin
             view_vars['text'].append("J'ai la mémoire qui flanche de temps en temps…")
 
+            # Dev logging
             view_vars['dev_log'].append("article_data : «{}»".format(place.article_data))
 
     # Return view with vars

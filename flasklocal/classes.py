@@ -30,10 +30,17 @@ class Place:
         self.geo_data = {'status': False}
         self.article_data = {'status': False}
 
+    def trigger_api(self):
         # Get geodata
         if len(self.query) > GOO_API['MIN_QUERY_LEN']:
             self.set_geo_data()
+        else:
+            self.geo_data['context'] = "textinput too short"
+
+        if self.geo_data['status']:
             self.set_article_data()
+        else:
+            self.article_data['context'] = "no geo_data"
 
     @staticmethod
     def compare(string):
@@ -231,5 +238,4 @@ class Query():
                         notresult.append(cleaned_word)
 
         self.in_string = " ".join(notresult).strip()
-
         return "text : «{}»\nresult : «{}»\nnotresult : «{}»".format(self._textinput_cf, result, notresult)

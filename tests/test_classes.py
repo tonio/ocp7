@@ -5,6 +5,23 @@ import pytest
 #### PLACE ####
 ###############
 
+class TestPlace:
+    TXTINPUT = "Salut GrandPy! Est-ce que tu connais l'adresse d'OpenClassrooms ?"
+    PLACE = script.Place(TXTINPUT)
+
+    def test_get_query(self):
+        assert self.PLACE.query == self.TXTINPUT
+
+    def test_geo_data_type(self):
+        assert isinstance(self.PLACE.geo_data, dict)
+
+    def test_article_data_type(self):
+        assert isinstance(self.PLACE.article_data, dict)
+
+    def test_compare(self):
+        assert self.PLACE.compare(self.TXTINPUT) == "salut grandpy! est ce que tu connais l adresse d openclassrooms ?"
+
+
 
 ###############
 #### QUERY ####
