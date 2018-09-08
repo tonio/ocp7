@@ -27,7 +27,6 @@ class TestPlace:
 
 class RequestsResponse:
     """ Requests.reponse object mock """
-
     status_code = 200
 
     def json():
@@ -39,7 +38,7 @@ def mock_requests_get(url, payload):
     return RequestsResponse
 
 def test_get_json_valid():
-    """ Test Place.get_json() """
+    """ Test Place.get_json() with basic manual mock """
 
     # backup original function
     orginal_function = script.requests.get
@@ -56,7 +55,22 @@ def test_get_json_valid():
     # Rolling bak
     script.requests.get = orginal_function
 
+class RequestsResponseInvalid:
+    """ Requests.reponse object mock """
+    status_code = 300
 
+    def json():
+        return False
+
+def mock_requests_get_invalid(url, payload):
+    """ Requests.get() function mock """
+    return RequestsResponseInvalid
+
+def test_get_json_invalid(monkeypatch):
+    """ Test Place.get_json() with monkeypatch"""
+    monkeypatch.setattr('flasklocal.classes.requests.get', mock_requests_get_invalid)
+    response = script.Place.get_json("url", "payload")
+    assert not response
 
 
 ###############
