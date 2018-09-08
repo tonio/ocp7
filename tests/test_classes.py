@@ -58,6 +58,16 @@ class TestPlace:
             }
         }
 
+    def test_get_geo_data_missing_field(self, monkeypatch):
+
+        def mock_json_missing_field(*param):
+            with open("tests/samples/missing-oc.json", "r") as json_file:
+                return json.loads(json_file.read())
+
+        self.PLACE.query = self.TXTINPUT
+        monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_missing_field)
+        self.PLACE.set_geo_data()
+        assert self.PLACE.geo_data == {'error': {'KeyError': "'formatted_address'"}}
 
 
 class RequestsResponse:
