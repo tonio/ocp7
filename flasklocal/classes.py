@@ -130,8 +130,11 @@ class Place:
             self.geo_data['formatted_address'] = geo_json['results'][0]['formatted_address']
             self.geo_data['location'] = geo_json['results'][0]['geometry']['location']
 
-        except TypeError:
-            self.geo_data = {'error': 'no_data'}
+        except KeyError as detail:
+            self.geo_data = {'error': {'KeyError': str(detail)}}
+
+        except TypeError as detail:
+            self.geo_data = {'error': {'TypeError': str(detail)}}
 
         else:
             # No data if request ĥas less or more 1 result
