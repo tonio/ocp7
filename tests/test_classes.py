@@ -33,6 +33,33 @@ class TestPlace:
         assert self.PLACE.geo_data['context'] == "textinput too short"
         assert self.PLACE.article_data['context'] == "no geo_data"
 
+    def test_get_geo_data(self, monkeypatch):
+
+        def mock_json_oc(*param):
+            with open("tests/samples/oc.json", "r") as json_file:
+                return json.loads(json_file.read())
+
+        self.PLACE.query = self.TXTINPUT
+        monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_oc)
+        self.PLACE.set_geo_data()
+        assert self.PLACE.geo_data == {
+            'context': 'textinput too short',
+            'formatted_address': '7 Cité Paradis, 75010 Paris, France',
+            'location': {'lat': 48.8747578, 'lng': 2.350564700000001},
+            'status': True,
+            'truncated_address': {
+                'administrative_area_level_1': 'Île-de-France',
+                'administrative_area_level_2': 'Paris',
+                'country': 'France',
+                'locality': 'Paris',
+                'postal_code': '75010',
+                'route': 'Cité Paradis',
+                'street_number': '7'
+            }
+        }
+
+
+
 class RequestsResponse:
     """ Requests.reponse object mock """
     status_code = 200
@@ -79,6 +106,8 @@ def test_get_json_invalid(monkeypatch):
     monkeypatch.setattr('flasklocal.classes.requests.get', mock_requests_get_invalid)
     response = script.Place.get_json("url", "payload")
     assert not response
+
+
 
 
 ###############
