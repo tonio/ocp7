@@ -1,4 +1,7 @@
 import flasklocal.classes as script
+import os
+import json
+import requests
 import pytest
 
 ###############
@@ -20,6 +23,39 @@ class TestPlace:
 
     def test_compare(self):
         assert self.PLACE.compare(self.TXTINPUT) == "salut grandpy! est ce que tu connais l adresse d openclassrooms ?"
+
+
+class RequestsResponse:
+    """ Requests.reponse object mock """
+
+    status_code = 200
+
+    def json():
+        return [11, 22, 33, 44, 55]
+
+def mock_requests_get(url, payload):
+    """ Requests.get() function mock """
+
+    return RequestsResponse
+
+def test_get_json_valid():
+    """ Test Place.get_json() """
+
+    # backup original function
+    orginal_function = script.requests.get
+
+    # override function with my mock
+    script.requests.get = mock_requests_get
+
+    # Running the tested function, fake params due to the mock
+    response = script.Place.get_json("url", "payload")
+
+    # Test
+    assert response[2] == 33
+
+    # Rolling bak
+    script.requests.get = orginal_function
+
 
 
 
