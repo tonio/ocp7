@@ -24,6 +24,14 @@ class TestPlace:
     def test_compare(self):
         assert self.PLACE.compare(self.TXTINPUT) == "salut grandpy! est ce que tu connais l adresse d openclassrooms ?"
 
+    def test_trigger_api_good_len_query(self):
+        pass
+
+    def test_trigger_api_short_query(self):
+        self.PLACE.query = "123"
+        self.PLACE.trigger_api()
+        assert self.PLACE.geo_data['context'] == "textinput too short"
+        assert self.PLACE.article_data['context'] == "no geo_data"
 
 class RequestsResponse:
     """ Requests.reponse object mock """
