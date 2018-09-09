@@ -11,6 +11,21 @@ import pytest
 class TestPlace:
     TXTINPUT = "Salut GrandPy! Est-ce que tu connais l'adresse d'OpenClassrooms ?"
     PLACE = script.Place(TXTINPUT)
+    OC_GEO_JSON = {
+            'context': 'textinput too short',
+            'formatted_address': '7 Cité Paradis, 75010 Paris, France',
+            'location': {'lat': 48.8747578, 'lng': 2.350564700000001},
+            'status': True,
+            'truncated_address': {
+                'administrative_area_level_1': 'Île-de-France',
+                'administrative_area_level_2': 'Paris',
+                'country': 'France',
+                'locality': 'Paris',
+                'postal_code': '75010',
+                'route': 'Cité Paradis',
+                'street_number': '7'
+            }
+        }
 
     def test_get_query(self):
         assert self.PLACE.query == self.TXTINPUT
@@ -42,21 +57,7 @@ class TestPlace:
         self.PLACE.query = self.TXTINPUT
         monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_oc)
         self.PLACE.set_geo_data()
-        assert self.PLACE.geo_data == {
-            'context': 'textinput too short',
-            'formatted_address': '7 Cité Paradis, 75010 Paris, France',
-            'location': {'lat': 48.8747578, 'lng': 2.350564700000001},
-            'status': True,
-            'truncated_address': {
-                'administrative_area_level_1': 'Île-de-France',
-                'administrative_area_level_2': 'Paris',
-                'country': 'France',
-                'locality': 'Paris',
-                'postal_code': '75010',
-                'route': 'Cité Paradis',
-                'street_number': '7'
-            }
-        }
+        assert self.PLACE.geo_data == self.OC_GEO_JSON
 
     def test_get_geo_data_missing_field(self, monkeypatch):
 
@@ -68,6 +69,17 @@ class TestPlace:
         monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_missing_field)
         self.PLACE.set_geo_data()
         assert self.PLACE.geo_data == {'error': {'KeyError': "'formatted_address'"}}
+
+    def test_set_article_data(self, monkeypatch):
+
+        def mock_json_oc_wiki_list(*param):
+            with open("tests/samples/oc-wiki.json", "r") as json_file:
+                return json.loads(json_file.read())
+
+        self.PLACE.query = self.TXTINPUT
+        monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_oc_wiki_list)
+        self.PLACE.set_article_data()
+        assert self.PLACE.article_data['status']
 
 
 class RequestsResponse:
