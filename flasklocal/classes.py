@@ -10,6 +10,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
  """
 import requests
+import urllib.parse as up
 from config import GOO_API, WIK_API
 
 
@@ -159,6 +160,7 @@ class Place:
     def get_map_src(self):
         """
         Return url of a static maps using Google Static Maps API
+
         """
         coord = "{},{}".format(
             self.geo_data['location']['lat'],
@@ -170,13 +172,11 @@ class Place:
             'markers': coord,
             'size': "{}x{}".format(*GOO_API['MAP_SIZE']),
         }
+        goo_url = up.urlparse(GOO_API['URL_MAP'])
+        query = up.urlencode(payload)
+        parts = (goo_url.scheme, goo_url.netloc, goo_url.path, '', query, '')
 
-        response = requests.get(
-            GOO_API['URL_MAP'],
-            payload,
-        )
-
-        return response.url
+        return up.urlunparse(parts)
 
 
 class Query():
