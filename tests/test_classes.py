@@ -81,6 +81,10 @@ class TestPlace:
         self.PLACE.set_article_data()
         assert self.PLACE.article_data['status']
 
+    def test_get_map_src_valid(self):
+        self.PLACE.geo_data['location'] = {'lat': '48.8747578', 'lng': '2.35056470'}
+        assert self.PLACE.get_map_src() == "https://maps.googleapis.com/maps/api/staticmap?center=48.8747578%2C2.35056470&markers=48.8747578%2C2.35056470&size=600x300"
+
 
 class RequestsResponse:
     """ Requests.reponse object mock """
