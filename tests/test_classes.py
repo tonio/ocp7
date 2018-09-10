@@ -1,6 +1,7 @@
 import flasklocal.classes as script
 import os
 import json
+import urllib.parse as up
 import requests
 import pytest
 
@@ -83,7 +84,19 @@ class TestPlace:
 
     def test_get_map_src_valid(self):
         self.PLACE.geo_data['location'] = {'lat': '48.8747578', 'lng': '2.35056470'}
-        assert self.PLACE.get_map_src() == "https://maps.googleapis.com/maps/api/staticmap?center=48.8747578%2C2.35056470&markers=48.8747578%2C2.35056470&size=600x300"
+
+        # Testing response URL without API key
+        url = self.PLACE.get_map_src()
+
+        if 'key=' in url:
+            old_parts = up.urlparse(url)
+            padic = up.parse_qs(old_parts.query)
+            del(padic['key'])
+            query = up.urlencode(padic, doseq=True)
+            parts = (old_parts.scheme, old_parts.netloc, old_parts.path, '', query, '')
+            url = up.urlunparse(parts)
+
+        assert url == "https://maps.googleapis.com/maps/api/staticmap?center=48.8747578%2C2.35056470&markers=48.8747578%2C2.35056470&size=600x300"
 
 
 class RequestsResponse:
