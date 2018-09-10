@@ -69,7 +69,7 @@ class TestPlace:
         self.PLACE.query = self.TXTINPUT
         monkeypatch.setattr('flasklocal.classes.Place.get_json', mock_json_missing_field)
         self.PLACE.set_geo_data()
-        assert self.PLACE.geo_data == {'error': {'KeyError': "'formatted_address'"}}
+        assert self.PLACE.geo_data['error']['KeyError'] == "'formatted_address'"
 
     def test_set_article_data(self, monkeypatch):
 
