@@ -202,14 +202,7 @@ class Query():
         """
         Function documentation
         """
-        result = []
         notresult = []
-
-        # DEVLOG login found stop words
-        for word in self._textinput_cf.split():
-
-            if word in self.stop:
-                result.append(word)
 
         for word in self._textinput_cf.split():
 
