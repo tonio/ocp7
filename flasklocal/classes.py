@@ -76,7 +76,7 @@ class Place:
             else:
                 return {
                     'context': 'get_json() method',
-                    'error':{'status_code': 'response.status_code'}
+                    'error':{'status_code': response.status_code}
                 }
 
     def set_article_data(self):
