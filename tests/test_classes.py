@@ -134,7 +134,7 @@ class RequestsResponseInvalid:
     status_code = 300
 
     def json():
-        return False
+        return "{'context': 'get_json() method', 'error': {'status_code': 'response.status_code'}}"
 
 def mock_requests_get_invalid(url, payload):
     """ Requests.get() function mock """
@@ -144,7 +144,7 @@ def test_get_json_invalid(monkeypatch):
     """ Test Place.get_json() with monkeypatch"""
     monkeypatch.setattr('flasklocal.classes.requests.get', mock_requests_get_invalid)
     response = script.Place.get_json("url", "payload")
-    assert not response
+    assert response['error']['status_code'] == 'response.status_code'
 
 
 
