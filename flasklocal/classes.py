@@ -168,6 +168,7 @@ class Place:
         )
 
         payload = {
+            'key': GOO_API['KEY'],
             'center': coord,
             'markers': coord,
             'size': "{}x{}".format(*GOO_API['MAP_SIZE']),
