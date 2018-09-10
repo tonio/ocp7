@@ -9,8 +9,9 @@ Licence: `GNU GPL v3` GNU GPL v3: http://www.gnu.org/licenses/
 This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
  """
-import requests
 import urllib.parse as up
+from pprint import pformat as pf
+import requests
 from config import GOO_API, WIK_API
 
 
@@ -36,12 +37,15 @@ class Place:
         if len(self.query) > GOO_API['MIN_QUERY_LEN']:
             self.set_geo_data()
         else:
-            self.geo_data['context'] = "textinput too short"
+            self.geo_data = {
+                'status': False,
+                'context': 'textinput too short',
+            }
 
         if self.geo_data['status']:
             self.set_article_data()
         else:
-            self.article_data['context'] = "no geo_data"
+            self.article_data['context'] = 'no geo_data'
 
     @staticmethod
     def compare(string):
@@ -53,14 +57,27 @@ class Place:
         """
         Request API
         """
-        response = requests.get(url, payload)
-        api_json = response.json()
+        try:
+            response = requests.get(url, payload)
+        except requests.exceptions.ConnectionError as except_detail:
+            return {'ConnectionError': pf(except_detail)}
 
-        if response.status_code == 200:
-            return api_json
-
+        try:
+            api_json = response.json()
+        except Exception as detail:
+            return {
+                'context': 'get_json() method',
+                'error':{'JSONDecodeError': str(detail)}
+            }
         else:
-            return False
+            if response.status_code == 200:
+                return api_json
+
+            else:
+                return {
+                    'context': 'get_json() method',
+                    'error':{'status_code': 'response.status_code'}
+                }
 
     def set_article_data(self):
         """
@@ -77,17 +94,35 @@ class Place:
             self.article_data['title'] = search_json['query']['search'][0]['title']
             self.article_data['pageid'] = search_json['query']['search'][0]['pageid']
 
-        except KeyError:
-            self.article_data['context'] = 'search KeyError'
-            self.article_data['status'] = False
+        except KeyError as detail:
+            self.article_data = {
+                'status': False,
+                'context': 'search article',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': search_json,
+                }
+            }
 
-        except TypeError:
-            self.article_data['context'] = 'search TypeError'
-            self.article_data['status'] = False
+        except TypeError as detail:
+            self.article_data = {
+                'status': False,
+                'context': 'search article',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': search_json,
+                }
+            }
 
-        except IndexError:
-            self.article_data['context'] = 'search IndexError'
-            self.article_data['status'] = False
+        except IndexError as detail:
+            self.article_data = {
+                'status': False,
+                'context': 'search article',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': search_json,
+                }
+            }
 
         else:
             self.article_data['status'] = True
@@ -100,9 +135,25 @@ class Place:
             try:
                 self.article_data['extract'] = article_json['query']['pages'][str(self.article_data['pageid'])]['extract']
 
-            except TypeError:
-                self.article_data['context'] = 'article'
-                self.article_data['status'] = False
+            except TypeError as detail:
+                self.article_data = {
+                    'status': False,
+                    'context': 'article extract',
+                    'error': {
+                        'TypeError': str(detail),
+                        'response': article_json,
+                    }
+                }
+
+            except KeyError as detail:
+                self.article_data = {
+                    'status': False,
+                    'context': 'article extract',
+                    'error': {
+                        'KeyError': str(detail),
+                        'response': article_json,
+                    }
+                }
 
     def set_geo_data(self):
         """
@@ -122,20 +173,43 @@ class Place:
         self.geo_data['status'] = True
         self.geo_data['truncated_address'] = {}
 
-        for component in geo_json['results'][0]['address_components']:
-            self.geo_data['truncated_address'].update(
-                {component['types'][0]: component['long_name']}
-            )
-
         try:
+            for component in geo_json['results'][0]['address_components']:
+                self.geo_data['truncated_address'].update(
+                    {component['types'][0]: component['long_name']}
+                )
             self.geo_data['formatted_address'] = geo_json['results'][0]['formatted_address']
             self.geo_data['location'] = geo_json['results'][0]['geometry']['location']
 
         except KeyError as detail:
-            self.geo_data = {'error': {'KeyError': str(detail)}}
+            self.geo_data = {
+                'status': False,
+                'context': 'set_geo_data()',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': geo_json,
+                }
+            }
+
+        except IndexError as detail:
+            self.geo_data = {
+                'status': False,
+                'context': 'set_geo_data()',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': geo_json,
+                }
+            }
 
         except TypeError as detail:
-            self.geo_data = {'error': {'TypeError': str(detail)}}
+            self.geo_data = {
+                'status': False,
+                'context': 'set_geo_data()',
+                'error': {
+                    'KeyError': str(detail),
+                    'response': geo_json,
+                }
+            }
 
         else:
             # No data if request ĥas less or more 1 result
@@ -148,7 +222,7 @@ class Place:
             # Adds locality in orginal query if missing for more appropriateness
             try:
                 if self.compare(self.geo_data['truncated_address']['locality'])\
-                not in self.compare(self.query):
+                    not in self.compare(self.query):
                     self.query = "{} {}".format(
                         self.query,
                         self.geo_data['truncated_address']['locality']
@@ -205,7 +279,6 @@ class Query():
         notresult = []
 
         for word in self._textinput_cf.split():
-
             # word is not in stopword list
             if word not in self.stop:
 
@@ -226,7 +299,6 @@ class Query():
                 # cleanning word of other non-alnum character
                 else:
                     cleaned_word = str()
-
                     for char in word:
                         if char.isalnum() or char == "-":
                             cleaned_word += char

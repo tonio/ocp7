@@ -10,6 +10,7 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 
 """
 from flask import Flask, request, render_template
+from pprint import pformat as pf
 from .classes import Place, Query
 
 app = Flask(__name__)
@@ -51,7 +52,7 @@ def index():
             view_vars['text'].append("Ça me dit rien gamin  …")
             view_vars['map_img_src'] = app.config['VIEW_DEFAULT_VARS']['map_img_src']
             view_vars['map_link'] = app.config['VIEW_DEFAULT_VARS']['map_link']
-            log.append("geo_data=#{}#".format(place.geo_data))
+            log.append("geo_data=#\n{}#".format(pf(place.geo_data)))
 
         # Get wikimedia data
         if place.article_data['status']:
@@ -60,7 +61,7 @@ def index():
         else:
             # No extract : feeds with place.article_data for loggin
             view_vars['text'].append("J'ai la mémoire qui flanche de temps en temps…")
-            log.append("article_data=#{}#".format(place.article_data))
+            log.append("article_data=#\n{}#".format(pf(place.article_data)))
 
         # print server loggin
         for line in log:
