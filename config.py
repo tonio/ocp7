@@ -50,12 +50,9 @@ WIK_API = {
     }
 }
 VIEW_DEFAULT_VARS = {
-    'address': '',
-    'text': [],
     'map_img_src': 'https://via.placeholder.com/{}x{}?text=no+map'.format(
         *GOO_API['MAP_SIZE']
     ),
     'name': APP['NAME'],
     'url': APP['SRC'],
-    'map_link': '',
 }

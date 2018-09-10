@@ -11,10 +11,11 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
 """
 from flask import Flask, request, render_template
 from pprint import pformat as pf
-from .classes import Place, Query
+from .classes import Place, Query, Message
 
 app = Flask(__name__)
 app.config.from_object('config')
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -40,27 +41,26 @@ def index():
         place.trigger_api()
         log.append("query :[{}]".format(place.query))
 
+        msg = Message(place)
+        view_vars['question'] = request.form['textinput']
+
         # Get map URL for address
         if place.geo_data['status']:
-            view_vars['map_img_src'] = place.get_map_src()
-            view_vars['map_link'] = app.config['APP']['MAP_LINK'].format(**place.geo_data['location'])
-            view_vars['text'] = [place.geo_data['formatted_address']]
-            log.append("coord :[{}]".format(place.geo_data['location']))
+            view_vars.update(msg.address_yes())
+            # log.append("coord :[{}]".format(place.geo_data['location']))
 
         else:
             # No geo_data : feeds with place.geo_data for loggin
-            view_vars['text'].append("Ça me dit rien gamin  …")
-            view_vars['map_img_src'] = app.config['VIEW_DEFAULT_VARS']['map_img_src']
-            view_vars['map_link'] = app.config['VIEW_DEFAULT_VARS']['map_link']
+            view_vars.update(msg.address_no())
             log.append("geo_data=#\n{}#".format(pf(place.geo_data)))
 
         # Get wikimedia data
         if place.article_data['status']:
-            view_vars['text'].append(place.article_data['extract'])
+            view_vars.update(msg.extract_yes())
 
         else:
             # No extract : feeds with place.article_data for loggin
-            view_vars['text'].append("J'ai la mémoire qui flanche de temps en temps…")
+            view_vars.update(msg.extract_no())
             log.append("article_data=#\n{}#".format(pf(place.article_data)))
 
         # print server loggin
@@ -69,7 +69,6 @@ def index():
 
     # Return view with vars
     return render_template("index.html", **view_vars)
-
 
 if __name__ == "__main__":
     app.run()

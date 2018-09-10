@@ -29,14 +29,22 @@
 <body>
     <h1>{{ name }}</h1>
     <form method="post">
-        <label>Ask something to GrandPy about a place : </label>
+        <label>Intéroge GrandPy au sujet d'un lieu : </label>
         <input type=text name="textinput" />
         <input type="submit" name="submit" value="Send" />
     </form>
-    {% for item in text %}
-    <p>{{ item }}</p>
-    {% endfor %}
+    <p>{{ question }}</p>
+    <p>{{ address }}</p>
+    <p>
+        {{ extract }}
+        {% if curid %}
+        Mais je fatigue : c'est l'heure de la sièste!
+        Va donc voir <a href='https://fr.wikipedia.org/w/index.php?curid={{ curid }}'>sur wikipedia</a>, pendant que je vais faire un somme (-:
+        {% endif %}
+    </p>
+    {% if map_link %}
     <p><a href="{{ map_link }}"><img src="{{ map_img_src }}"></a></p>
-    <p>More info on <a href="{{ url }}">Github</a>.</p>
+    {% endif %}
+    <p>Plus d'info sur <a href="{{ url }}">Github</a>.</p>
 </body>
 </html>

@@ -11,8 +11,9 @@ This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
  """
 import urllib.parse as up
 from pprint import pformat as pf
+from random import choice as rc
 import requests
-from config import GOO_API, WIK_API
+from config import APP, GOO_API, VIEW_DEFAULT_VARS, WIK_API
 
 
 class Place:
@@ -307,3 +308,62 @@ class Query():
                         notresult.append(cleaned_word)
 
         self.in_string = " ".join(notresult).strip()
+
+
+class Message():
+    """ Class doc """
+
+    def __init__(self, place):
+        """ Class initialiser """
+        self.place = place
+        self.babble = {
+            'address_yes': [
+                "Bien sûr mon poussin! Voici l'adresse",
+                "Mais oui mon p'tit, tiens mon neurone vient de démarrer, voici l'adresse",
+                "Oh oui, je m'en souviens bien, et hop, l'adresse",
+                "Ouh, ça fait un bail! Mais si ma mémoire est bonne l'adresse est celle ci",
+             ],
+            'extract_yes': [
+                "D'ailleurs j'ai passé un boût de temps dans le coin, laisse moi t'en causer un peu",
+                "GrandMy (ma femme) adorait cet endroit, on y est allé souvent",
+                "Là aussi on à passé de bons moments… Attends un peu que je te raconte",
+                "J'y ai fais les 400 coups bien avant que tu mettes ta première couche-culotte",
+            ],
+            'address_no': [
+                "Ça me dit rien gamin, reformules pour voir…",
+                "Moi je gâtouille pas encore, par contre toi c'est moins sûr… Repose ta question!",
+                "C'est pas très clair comme question, répète un peu…",
+                "Nan mais j'suis pas prix Nobel moi!!",
+            ],
+            'extract_no': [
+                "Euh, faut que je prenne mes pillules…",
+                "Je t'ai dis que c'était l'heure de la sièste…",
+                "Nan, mais j'ai déjà raconté cette histoire 100 fois!",
+                "Et sinon, t'as pas des amis à qui causer?",
+            ]
+        }
+
+    def address_no(self):
+        return {'address': rc(self.babble['address_no']), 'map_link': False}
+
+    def extract_no(self):
+        return {'extract': rc(self.babble['extract_no']), 'curid': False}
+
+    def address_yes(self):
+        return {
+            'map_img_src': self.place.get_map_src(),
+            'map_link': APP['MAP_LINK'].format(**self.place.geo_data['location']),
+            'address': "{} : {}".format(
+                rc(self.babble['address_yes']),
+                self.place.geo_data['formatted_address'],
+            ),
+        }
+
+    def extract_yes(self):
+        return {
+            'curid': self.place.article_data['pageid'],
+            'extract': "{} : {}………".format(
+                rc(self.babble['extract_yes']),
+                self.place.article_data['extract'][:200],
+            )
+        }
