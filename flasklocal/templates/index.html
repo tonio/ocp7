@@ -33,12 +33,6 @@
         <input type=text name="textinput" />
         <input type="submit" name="submit" value="Send" />
     </form>
-    <ul>
-    {% for trace in dev_log %}
-        <li><pre>{{ trace }}</pre></li>
-    {% endfor %}
-    </ul>
-    <hr />
     {% for item in text %}
     <p>{{ item }}</p>
     {% endfor %}
