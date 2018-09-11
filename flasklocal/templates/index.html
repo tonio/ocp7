@@ -1,50 +1,51 @@
-<!--
-    index.html :
-
-    Copyright 2018 freezed <freezed@users.noreply.github.com>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    This file is part of [ocp7](http://github.com/freezed/ocp7/) project.
-
--->
-
 <!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>{{ name }}</title>
-</head>
-<body>
-    <h1>{{ name }}</h1>
-    <form method="post">
-        <label>Intéroge GrandPy au sujet d'un lieu : </label>
-        <input type=text name="textinput" />
-        <input type="submit" name="submit" value="Send" />
-    </form>
-    <p>{{ question }}</p>
-    <p>{{ address }}</p>
-    <p>
-        {{ extract }}
-        {% if curid %}
-        Mais je fatigue : c'est l'heure de la sièste!
-        Va donc voir <a href='https://fr.wikipedia.org/w/index.php?curid={{ curid }}'>sur wikipedia</a>, pendant que je vais faire un somme (-:
-        {% endif %}
-    </p>
-    {% if map_link %}
-    <p><a href="{{ map_link }}"><img src="{{ map_img_src }}"></a></p>
-    {% endif %}
-    <p>Plus d'info sur <a href="{{ url }}">Github</a>.</p>
-</body>
+<html class="no-js" lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>{{ name }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/knacss.css') }}" media="all">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" media="all">
+    </head>
+    <body>
+
+    <header id="header" role="banner" class="pa0 pal">
+        <h1>{{ name }}</h1>
+        <p>Le paPy qui paPotte</p>
+    </header>
+
+    <div class="flex-container">
+
+        <aside class="mod w20 pa0 ma0 aside"></aside>
+
+        <main id="main" role="main" class="flex-item-fluid pam">
+            <form method="post">
+                <label>Intéroge GrandPy au sujet d'un lieu : </label>
+                <input type=text name="textinput" />
+                <input type="submit" name="submit" value="Send" />
+            </form>
+            <p>{{ question }}</p>
+            <p>{{ address }}</p>
+            <p>
+                {{ extract }}
+                {% if curid %}
+                Mais je fatigue : c'est l'heure de la sièste!
+                Va donc voir <a href='https://fr.wikipedia.org/w/index.php?curid={{ curid }}'>sur wikipedia</a>, pendant que je vais faire un somme (-:
+                {% endif %}
+            </p>
+            {% if map_link %}
+            <p><a href="{{ map_link }}"><img src="{{ map_img_src }}"></a></p>
+            {% endif %}
+        </main>
+
+        <aside class="mod w20 pa0 ma0 aside"></aside>
+
+    </div>
+
+    <footer id="footer" role="contentinfo" class="pa0 pal">
+        <p>Plus d'info sur <a href="{{ url }}">Github</a>.</p>
+    </footer>
+
+    </body>
 </html>
