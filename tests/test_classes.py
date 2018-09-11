@@ -144,7 +144,7 @@ def test_get_json_invalid(monkeypatch):
     """ Test Place.get_json() with monkeypatch"""
     monkeypatch.setattr('flasklocal.classes.requests.get', mock_requests_get_invalid)
     response = script.Place.get_json("url", "payload")
-    assert response['error']['status_code'] == 'response.status_code'
+    assert response['error']['status_code'] == 300
 
 
 
